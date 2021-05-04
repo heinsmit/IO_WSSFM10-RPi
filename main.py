@@ -9,6 +9,7 @@
 #  where MESSAGE is a HEXA string encoded. Can be 2 to 24 characters representing 1 to 12 bytes.
 #  Example : sendsigfox 00AA55BF to send the 4 bytes 0x00 0xAA 0x55 0xBF
 # 
+from __future__ import print_function
 
 import time
 import serial
@@ -60,13 +61,13 @@ class Sigfox(object):
             if success in currentMsg :
                     return currentMsg
             elif failure in currentMsg :
-                    print 'Failure (' + currentMsg.replace('\r\n', '') + ')'
+                    print("Failure ( {0} )".format(currentMsg.replace('\r\n', '')))
             else :
-                    print 'Receive timeout (' + currentMsg.replace('\r\n', '') + ')'
+                    print("Receive timeout (' + currentMsg.replace('\r\n', '') + ')")
             return ''
 
     def sendMessage(self, message):
-        print 'Sending SigFox Message...'
+        print("Sending SigFox Message...")
         
         if(self.ser.isOpen() == True): # on some platforms the serial port needs to be closed first 
             self.ser.close()
@@ -79,15 +80,15 @@ class Sigfox(object):
 
         self.ser.write('AT\r')
         if self.WaitFor('OK', 'ERROR', 3) :
-                print('SigFox Modem OK')
+                print("SigFox Modem OK")
 
                 self.ser.write("AT$SF={0}\r".format(message))
-                print('Sending ...')
+                print("Sending ...")
                 if self.WaitFor('OK', 'ERROR', 15) :
                         print('OK Message sent')
 
         else:
-                print 'SigFox Modem Error'
+                print("SigFox Modem Error")
 
         self.ser.close()
 
