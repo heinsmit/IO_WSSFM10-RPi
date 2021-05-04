@@ -29,7 +29,7 @@ class Sigfox(object):
         # allow serial port choice from parameter - default is /dev/ttyAMA0
         portName = port
         
-        print 'Serial port : ' + portName
+        print("Serial port : {0}".format(portName))
         self.ser = serial.Serial(
                 port=portName,
                 baudrate=9600,
@@ -85,7 +85,7 @@ class Sigfox(object):
                 self.ser.write("AT$SF={0}\r".format(message))
                 print("Sending ...")
                 if self.WaitFor('OK', 'ERROR', 15) :
-                        print('OK Message sent')
+                        print("OK Message sent")
 
         else:
                 print("SigFox Modem Error")
